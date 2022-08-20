@@ -1,0 +1,19 @@
+<div>
+    <h3>Product editor</h3>
+
+    <form novalidate ng-submit="updateProduct()" ng-init="prepareProductForUpdate()">
+        <div class="mb-3">
+            <label  class="form-label">Title</label>
+            <input type="text" class="form-control" placeholder="Title" ng-model="updated_product.title">
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">Cost</label>
+            <input type="number" class="form-control" placeholder="Cost" ng-model="updated_product.cost">
+        </div>
+        <select class="form-select" ng-model="updated_product.categoryTitle">
+            <option value="Food">Food</option>
+        </select>
+        <p></p>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>

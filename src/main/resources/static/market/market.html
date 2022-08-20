@@ -1,0 +1,54 @@
+<div class="container" ng-controller="marketController" ng-init="getProductsPage()">
+    <h2>Products List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Cost</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="product in productsPage.content">
+            <td>{{product.id}}</td>
+            <td>{{product.title}}</td>
+            <td>{{product.cost}}</td>
+            <td>
+                <div>
+                    <button type="button" ng-click="navToProductEditor(product.id)" class="btn btn-primary" ng-show="isUserManager() || isUserAdmin()">Edit</button>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <button type="button" ng-click="deleteProduct(product.id)" class="btn btn-primary" ng-show="isUserAdmin()">Delete</button>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <button type="button" ng-click="addToCart(product)" class="btn btn-primary" ng-show="isUserLoggedIn()">Add to cart</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" ng-click="prevPage()">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" ng-repeat="pageIndex in paginationArray">
+                <button class="page-link" ng-click="getProductsPage(pageIndex)">{{pageIndex}}</button>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" aria-label="Next" ng-click="nextPage()">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

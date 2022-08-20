@@ -1,0 +1,19 @@
+<div>
+    <h3>Add product</h3>
+
+    <form novalidate ng-submit="createNewProduct()">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" ng-model="newProduct.title">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Cost</label>
+            <input type="text" class="form-control" ng-model="newProduct.cost">
+        </div>
+        <select class="form-select" ng-model="newProduct.categoryTitle">
+            <option value="Food">Food</option>
+        </select>
+        <p></p>
+        <button type="submit" class="btn btn-primary" ng-click="addNewProduct(newProduct)">Add</button>
+    </form>
+</div>

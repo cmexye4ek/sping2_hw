@@ -1,0 +1,24 @@
+<div class="container" ng-controller="cartController" ng-init="getCartList()">
+    <h2>Cart List</h2>
+    <table class="table" ng-submit="getCartList()">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Cost</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="product in products.data">
+            <td>{{product.id}}</td>
+            <td>{{product.title}}</td>
+            <td>{{product.cost}}</td>
+            <td>
+                <div>
+                    <button type="submit" ng-click="removeFromCart(product.id)" class="btn btn-primary">Remove from cart</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

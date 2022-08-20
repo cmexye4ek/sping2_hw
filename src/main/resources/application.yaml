@@ -1,0 +1,19 @@
+server:
+  port: 8189
+  servlet:
+    context-path: /market
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+jwt:
+  secret: ruiegtbw4ep9tyu-9t5u4t0943jg0e-jgjerd9hjgoudrhgdr;kgjirejo
+  lifetime: 3600000
