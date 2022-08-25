@@ -1,6 +1,7 @@
 package ru.gb.market.configs;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,13 +17,10 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
-
-    public JwtRequestFilter(JwtTokenUtil jwtTokenUtil) {
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,7 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (username != null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username,
                     null, jwtTokenUtil.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
             SecurityContextHolder.getContext().setAuthentication(token);

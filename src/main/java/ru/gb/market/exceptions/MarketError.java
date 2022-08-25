@@ -1,9 +1,14 @@
 package ru.gb.market.exceptions;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 public class MarketError {
 
     private List<String> messages;
@@ -22,19 +27,4 @@ public class MarketError {
         this(Arrays.asList(messages));
     }
 
-    public List<String> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

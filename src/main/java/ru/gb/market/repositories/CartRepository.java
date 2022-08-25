@@ -1,35 +1,41 @@
 package ru.gb.market.repositories;
 
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import ru.gb.market.models.Category;
-import ru.gb.market.models.Product;
+import ru.gb.market.models.Cart;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Scope(BeanDefinition.SCOPE_SINGLETON)
 public class CartRepository {
-    private List<Product> cart;
+
+    private List<Cart> carts;
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @PostConstruct
     public void init() {
-        this.cart = new ArrayList<>();
+        this.carts = new ArrayList<>();
     }
 
-    public void addProductToCart(Product product) {
-        cart.add(product);
+    public Cart getCartByUserId(String userId) {
+        if (!redisTemplate.hasKey(userId)) {
+            Cart cart = new Cart();
+            cart.setUserId(userId);
+            redisTemplate.opsForValue().set(userId, cart);
+        }
+        return (Cart) redisTemplate.opsForValue().get(userId);
     }
 
-    public void removeProductFromCart(Long id) {
-        cart.removeIf(p -> p.getId() == id);
+    public void updateCartInCache(Cart cart) {
+        redisTemplate.opsForValue().set(cart.getUserId(), cart);
     }
 
-    public List<Product> getCartList() {
-        return cart;
+    public void removeCartFromCache(String userId) {
+        redisTemplate.delete(userId);
     }
+
 }

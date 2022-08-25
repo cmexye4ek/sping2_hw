@@ -1,7 +1,12 @@
 package ru.gb.market.models;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -14,41 +19,10 @@ public class Product {
     private String title;
 
     @Column(name = "cost")
-    private int cost;
+    private Double cost;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }

@@ -1,8 +1,13 @@
 package ru.gb.market.models;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Collection;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -20,29 +25,5 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "privilege_id"))
     private Collection<Privilege> privileges;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Collection<Privilege> getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(Collection<Privilege> privileges) {
-        this.privileges = privileges;
-    }
 
 }
