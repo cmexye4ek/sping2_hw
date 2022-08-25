@@ -1,4 +1,4 @@
-angular.module('market-app').controller('marketController', function ($scope, $http, $location) {
+angular.module('market-app').controller('marketController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/market/api/v1';
     let currentPageIndex = 1;
 
@@ -45,7 +45,7 @@ angular.module('market-app').controller('marketController', function ($scope, $h
     }
 
     $scope.addToCart = function (product) {
-        $http.post(contextPath + '/cart', product)
+        $http.post(contextPath + '/cart', product, {params: $localStorage.GuestUuid})
             .then(function successCallback(response) {
                     product = null;
                     alert("Product added to cart successful");

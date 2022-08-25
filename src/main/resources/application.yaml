@@ -17,3 +17,6 @@ spring:
 jwt:
   secret: ruiegtbw4ep9tyu-9t5u4t0943jg0e-jgjerd9hjgoudrhgdr;kgjirejo
   lifetime: 3600000
+utils:
+  cart:
+    prefix: CART_OF_USER_

@@ -6,13 +6,29 @@
             <td>ID</td>
             <td>Title</td>
             <td>Cost</td>
+            <td></td>
+            <td>Amount</td>
+            <td></td>
+            <td>Summary Cost</td>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="product in products.data">
+        <tr ng-repeat="product in cart.productsList">
             <td>{{product.id}}</td>
             <td>{{product.title}}</td>
             <td>{{product.cost}}</td>
+            <td>
+                <div>
+                    <button type="button" ng-click="decrementAmount(product)" class="btn btn-primary">-</button>
+                </div>
+            </td>
+            <td>{{product.amount}}</td>
+            <td>
+                <div>
+                    <button type="button" ng-click="incrementAmount(product)" class="btn btn-primary">+</button>
+                </div>
+            </td>
+            <td>{{product.summaryCost}}</td>
             <td>
                 <div>
                     <button type="submit" ng-click="removeFromCart(product.id)" class="btn btn-primary">Remove from cart</button>

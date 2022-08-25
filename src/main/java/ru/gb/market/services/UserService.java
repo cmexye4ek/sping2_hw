@@ -1,5 +1,6 @@
 package ru.gb.market.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,22 +15,15 @@ import ru.gb.market.repositories.RoleRepository;
 import ru.gb.market.repositories.UserRepository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final String DEFAULT_NEW_USER_ROLE = "ROLE_USER";
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -72,10 +66,7 @@ public class UserService implements UserDetailsService {
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-//        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
         return getGrantedAuthorities(getPrivileges(roles));
     }
-
-
 
 }
