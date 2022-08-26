@@ -1,7 +1,10 @@
 package ru.gb.market.exceptions;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class ProductErrorResponce {
     private String message;
     private Date date;
@@ -11,19 +14,4 @@ public class ProductErrorResponce {
         this.date = new Date();
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

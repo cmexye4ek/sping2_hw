@@ -4,6 +4,7 @@ angular.module('market-app').controller('productEditorController', function ($sc
     $scope.prepareProductForUpdate = function () {
         $http.get(contextPath + '/products/' + $routeParams.productId)
             .then(function successCallback(response) {
+                console.log(response)
                     $scope.updated_product = response.data;
                 }, function failCallback(response) {
                     alert(response.data.message);
@@ -19,6 +20,7 @@ angular.module('market-app').controller('productEditorController', function ($sc
                     alert("Product updated successful");
                     $location.path('/market');
                 }, function failCallback(response) {
+                console.log(response.data)
                     alert(response.data.message);
                 }
             );

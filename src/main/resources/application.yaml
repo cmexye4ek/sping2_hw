@@ -17,3 +17,11 @@ spring:
 jwt:
   secret: ruiegtbw4ep9tyu-9t5u4t0943jg0e-jgjerd9hjgoudrhgdr;kgjirejo
   lifetime: 3600000
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: statistic
+
+

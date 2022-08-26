@@ -1,5 +1,6 @@
 package ru.gb.market.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.market.dto.AuthRequest;
 import ru.gb.market.dto.AuthResponse;
+import ru.gb.market.dto.GuestUuid;
 import ru.gb.market.dto.RegistrationRequest;
 import ru.gb.market.exceptions.MarketError;
 import ru.gb.market.models.User;
@@ -17,10 +19,11 @@ import ru.gb.market.services.UserService;
 import ru.gb.market.utils.JwtTokenUtil;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
@@ -31,11 +34,9 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserService userService, JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
+    @GetMapping("/guest")
+    public GuestUuid generateUuid() {
+        return new GuestUuid(UUID.randomUUID().toString());
     }
 
     @PostMapping("/auth")
