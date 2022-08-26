@@ -39,6 +39,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.OK)
     public void updateProduct(@RequestBody ProductDto productDto) {
         productService.save(productMapper.mapDtoToEntity(productDto));
     }

@@ -9,6 +9,7 @@ import ru.gb.market.models.Cart;
 import ru.gb.market.services.CartService;
 
 
+import javax.persistence.Cacheable;
 import java.security.Principal;
 
 @RestController
