@@ -15,7 +15,7 @@
                 controller: 'marketController'
             })
             .when('/product_editor/:productId', {
-                templateUrl: 'product_editor/registration.html',
+                templateUrl: 'product_editor/product_editor.html',
                 controller: 'productEditorController'
             })
             .when('/product_add', {
@@ -37,10 +37,22 @@
 
     function run($rootScope, $http, $localStorage) {
         if ($localStorage.webMarketUser) {
+            let jwtClaims = $localStorage.webMarketUser.token.split('.')[1];
+            $rootScope.decodedJwtClaims = window.atob(jwtClaims);
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.webMarketUser.token;
         }
-    }
 
+        if ($localStorage.GuestUuid == null) {
+            $http.get('http://localhost:8189/market/api/v1/guest')
+                .then(function successCallback(response) {
+                    $localStorage.GuestUuid = {
+                        uuid: response.data.uuid
+                    };
+                }, function errorCallback(response) {
+                    alert(response);
+                });
+        }
+    }
 })();
 
 angular.module('market-app').controller('indexController', function ($rootScope, $scope, $http, $localStorage, $location) {
@@ -50,8 +62,7 @@ angular.module('market-app').controller('indexController', function ($rootScope,
         $http.post(contextPath + '/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
-                    let jwtClaims = response.data.token.split('.')[1];
-                    $scope.decodedJwtClaims = window.atob(jwtClaims);
+                    console.log(response);
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.webMarketUser = {
                         username: $scope.user.username,
@@ -60,18 +71,25 @@ angular.module('market-app').controller('indexController', function ($rootScope,
                     $scope.user.username = null;
                     $scope.user.password = null;
                 }
+                $http.post(contextPath + '/cart/merge', $localStorage.GuestUuid)
+                    .then(function successCallback(response) {
+                        delete $localStorage.GuestUuid;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                location.reload();
             }, function errorCallback(response) {
                 alert(response.data.messages);
             });
     };
 
     $scope.tryToLogout = function () {
-        $scope.clearUser();
-        if ($scope.user.username) {
-            $scope.user.username = null;
-        }
-        if ($scope.user.password) {
-            $scope.user.password = null;
+        if ($rootScope.isUserLoggedIn()) {
+            $scope.clearUser();
+            if ($scope.user) {
+                $scope.user.username = null;
+                $scope.user.password = null;
+            }
         }
     };
 
@@ -85,14 +103,17 @@ angular.module('market-app').controller('indexController', function ($rootScope,
     };
 
     $rootScope.isUserAdmin = function () {
-        return $rootScope.isUserLoggedIn() && $scope.decodedJwtClaims.includes("ROLE_ADMIN");
+        return $rootScope.isUserLoggedIn() && $rootScope.decodedJwtClaims.includes('ROLE_ADMIN');
+
     };
 
     $rootScope.isUserManager = function () {
-        return $rootScope.isUserLoggedIn() && $scope.decodedJwtClaims.includes("ROLE_MANAGER");
+        return $rootScope.isUserLoggedIn() && $rootScope.decodedJwtClaims.includes('ROLE_MANAGER');
+
     };
 
     $scope.navToRegisterPage = function () {
         $location.path('/registration');
     }
+
 });

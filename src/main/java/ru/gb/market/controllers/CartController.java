@@ -1,51 +1,66 @@
 package ru.gb.market.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.market.dto.GuestUuid;
 import ru.gb.market.dto.ProductDto;
-import ru.gb.market.exceptions.ResourceNotFoundException;
-import ru.gb.market.models.Category;
-import ru.gb.market.models.Product;
+import ru.gb.market.models.Cart;
 import ru.gb.market.services.CartService;
-import ru.gb.market.services.CategoryService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import javax.persistence.Cacheable;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("api/v1/cart")
+@RequiredArgsConstructor
 public class CartController {
-    private final CartService cartService;
-    private final CategoryService categoryService;
 
-    public CartController(CartService cartService, CategoryService categoryService) {
-        this.cartService = cartService;
-        this.categoryService = categoryService;
-    }
+    private final CartService cartService;
 
     @GetMapping
-    public List<ProductDto> getCartList() {
-        return cartService.getCartList().stream().map(ProductDto::new).collect(Collectors.toList());
+    public Cart getCart(@RequestParam(value = "uuid", required = false) GuestUuid guestUuid, Principal principal) {
+        if (principal == null) {
+            return cartService.getCart(guestUuid.getUuid());
+        }
+        return cartService.getCart(principal.getName());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto addProductToCart(@RequestBody ProductDto productDto) {
-        Product product = new Product();
-        product.setId(productDto.getId());
-        product.setTitle(productDto.getTitle());
-        product.setCost(productDto.getCost());
-        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category title = " + productDto.getCategoryTitle() + " not found on market"));
-        product.setCategory(category);
-        cartService.addProductToCart(product);
-        return new ProductDto(product);
+    public Cart addToCart(@RequestBody ProductDto productDto, @RequestParam(value = "uuid", required = false) GuestUuid guestUuid, Principal principal) {
+        if (principal == null) {
+            return cartService.addProductToCart(productDto, guestUuid.getUuid());
+        }
+        return cartService.addProductToCart(productDto, principal.getName());
     }
 
+    @PostMapping("/merge")
+    @ResponseStatus(HttpStatus.OK)
+    public Cart mergeCarts(@RequestBody GuestUuid guestUuid, Principal principal) {
+        return cartService.mergeCarts(guestUuid.getUuid(), principal.getName());
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Cart decrementProductInCart(@RequestBody ProductDto productDto, @RequestParam(value = "uuid", required = false) GuestUuid guestUuid, Principal principal) {
+        if (principal == null) {
+            return cartService.decrementProductInCart(productDto, guestUuid.getUuid());
+        }
+        return cartService.decrementProductInCart(productDto, principal.getName());
+    }
 
     @DeleteMapping("/{id}")
-    public int deleteFromCart(@PathVariable Long id) {
-        cartService.removeProductFromCart(id);
-        return HttpStatus.OK.value();
+    @ResponseStatus(HttpStatus.OK)
+    public Cart deleteFromCart(@PathVariable Long id, @RequestParam(value = "uuid", required = false) GuestUuid guestUuid, Principal principal) {
+        if (principal == null) {
+            return cartService.removeFromCart(id, guestUuid.getUuid());
+        }
+        return cartService.removeFromCart(id, principal.getName());
     }
 }
+
+
+
+

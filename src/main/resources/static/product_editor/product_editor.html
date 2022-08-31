@@ -1,7 +1,7 @@
 <div>
     <h3>Product editor</h3>
 
-    <form novalidate ng-submit="updateProduct()" ng-init="prepareProductForUpdate()">
+    <form novalidate ng-submit="updateProduct()" ng-init="prepareProductForUpdate(productId)">
         <div class="mb-3">
             <label  class="form-label">Title</label>
             <input type="text" class="form-control" placeholder="Title" ng-model="updated_product.title">

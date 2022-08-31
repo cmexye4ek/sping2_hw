@@ -1,14 +1,13 @@
 package ru.gb.market.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AuthRequest {
+@AllArgsConstructor
+public class WsMessage {
 
-    private String username;
-
-    private String password;
-
+    public String content;
 }
