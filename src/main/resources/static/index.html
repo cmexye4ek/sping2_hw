@@ -40,7 +40,8 @@
                                 <input id="navLoginField" class="form-control" ng-model="user.username" type="text"
                                        aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-                                <input id="navPasswordField" class="form-control" ng-model="user.password" type="password"
+                                <input id="navPasswordField" class="form-control" ng-model="user.password"
+                                       type="password"
                                        aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
                                 <button id="navLoginSubmit" class="btn btn-outline-warning btn-sm"
@@ -65,25 +66,28 @@
     <script src="product_add/product_add.js"></script>
     <script src="registration/registration.js"></script>
     <script src="cart/cart.js"></script>
+    <script src="webjars/jquery/jquery.min.js"></script>
+    <script src="webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="webjars/stomp-websocket/stomp.min.js"></script>
 
-<!--    <p></p>-->
-<!--    <h3>Add product</h3>-->
+    <!--    <p></p>-->
+    <!--    <h3>Add product</h3>-->
 
-<!--    <form novalidate ng-submit="createNewProduct()">-->
-<!--        <div class="mb-3">-->
-<!--            <label class="form-label">Title</label>-->
-<!--            <input type="text" class="form-control" ng-model="newProduct.title">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <label class="form-label">Cost</label>-->
-<!--            <input type="text" class="form-control" ng-model="newProduct.cost">-->
-<!--        </div>-->
-<!--        <select class="form-select" ng-model="newProduct.categoryTitle">-->
-<!--            <option value="Food">Food</option>-->
-<!--        </select>-->
-<!--        <p></p>-->
-<!--        <button type="submit" class="btn btn-primary" ng-click="addNewProduct(newProduct)">Add</button>-->
-<!--    </form>-->
+    <!--    <form novalidate ng-submit="createNewProduct()">-->
+    <!--        <div class="mb-3">-->
+    <!--            <label class="form-label">Title</label>-->
+    <!--            <input type="text" class="form-control" ng-model="newProduct.title">-->
+    <!--        </div>-->
+    <!--        <div class="mb-3">-->
+    <!--            <label class="form-label">Cost</label>-->
+    <!--            <input type="text" class="form-control" ng-model="newProduct.cost">-->
+    <!--        </div>-->
+    <!--        <select class="form-select" ng-model="newProduct.categoryTitle">-->
+    <!--            <option value="Food">Food</option>-->
+    <!--        </select>-->
+    <!--        <p></p>-->
+    <!--        <button type="submit" class="btn btn-primary" ng-click="addNewProduct(newProduct)">Add</button>-->
+    <!--    </form>-->
 
 </div>
 </body>

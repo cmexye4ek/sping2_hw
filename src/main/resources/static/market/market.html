@@ -1,5 +1,24 @@
 <div class="container" ng-controller="marketController" ng-init="getProductsPage()">
     <h2>Products List</h2>
+    <table>
+        <tr>
+            <td>
+                <button id="getPriceButton" type="button" ng-click="wsConnect()" class="btn btn-primary">Download
+                    price
+                </button>
+                <div id="getPriceAlert" class="alert alert-success" role="alert">
+                    Your price has been created, download start automatically in new tab
+                </div>
+            </td>
+            <td>
+                <div id="loading" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
     <table class="table">
         <thead>
         <tr>
@@ -15,12 +34,16 @@
             <td>{{product.cost}}</td>
             <td>
                 <div>
-                    <button type="button" ng-click="navToProductEditor(product.id)" class="btn btn-primary" ng-show="isUserManager() || isUserAdmin()">Edit</button>
+                    <button type="button" ng-click="navToProductEditor(product.id)" class="btn btn-primary"
+                            ng-show="isUserManager() || isUserAdmin()">Edit
+                    </button>
                 </div>
             </td>
             <td>
                 <div>
-                    <button type="button" ng-click="deleteProduct(product.id)" class="btn btn-primary" ng-show="isUserAdmin()">Delete</button>
+                    <button type="button" ng-click="deleteProduct(product.id)" class="btn btn-primary"
+                            ng-show="isUserAdmin()">Delete
+                    </button>
                 </div>
             </td>
             <td>

@@ -102,15 +102,12 @@ angular.module('market-app').controller('indexController', function ($rootScope,
         return !!$localStorage.webMarketUser;
     };
 
-    //надо переделать чтобы при обновлении страницы из под залогиненного юзера проверка не генерила кучу ошибок undefined в консоль
     $rootScope.isUserAdmin = function () {
-        // $scope.roleAdmin = "ROLE_ADMIN";
         return $rootScope.isUserLoggedIn() && $rootScope.decodedJwtClaims.includes('ROLE_ADMIN');
 
     };
-    //надо переделать чтобы при обновлении страницы из под залогиненного юзера проверка не генерила кучу ошибок undefined в консоль
+
     $rootScope.isUserManager = function () {
-        // $scope.roleManager = "ROLE_MANAGER";
         return $rootScope.isUserLoggedIn() && $rootScope.decodedJwtClaims.includes('ROLE_MANAGER');
 
     };

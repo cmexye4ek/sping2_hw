@@ -8,15 +8,21 @@ import org.springframework.stereotype.Service;
 import ru.gb.market.models.Product;
 import ru.gb.market.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+
     private final ProductRepository productRepository;
 
     public Page<Product> findAll(int pageIndex, int pageSize) {
         return productRepository.findAll(PageRequest.of(pageIndex, pageSize, Sort.by("id")));
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     public Optional<Product> findById(Long id) {

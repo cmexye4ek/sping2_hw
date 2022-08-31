@@ -46,5 +46,4 @@ angular.module('market-app').controller('cartController', function ($scope, $htt
             );
     }
 
-
 });

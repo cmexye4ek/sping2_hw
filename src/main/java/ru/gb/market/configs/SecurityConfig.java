@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 //               .antMatchers("/cart/**").hasAnyRole()
-                .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/webjars/**","/actuator/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

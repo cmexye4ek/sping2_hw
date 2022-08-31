@@ -2,6 +2,7 @@ package ru.gb.market.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Category {
     @Column(name = "title")
     private String title;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 

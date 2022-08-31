@@ -1,6 +1,9 @@
 angular.module('market-app').controller('marketController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/market/api/v1';
     let currentPageIndex = 1;
+    var stompClient = null;
+    $("#getPriceAlert").hide();
+    $("#loading").hide();
 
     $scope.getProductsPage = function (pageIndex = 1) {
         $http({
@@ -67,5 +70,47 @@ angular.module('market-app').controller('marketController', function ($scope, $h
                 }
             );
     };
+
+    function isConnected(connected) {
+        $("#getPriceButton").prop("disabled", connected);
+        if (connected) {
+            $("#loading").show();
+        } else {
+            $("#getPriceButton").hide();
+            $("#getPriceAlert").show();
+            $("#loading").hide();
+        }
+    }
+
+    $scope.wsConnect = function () {
+        var socket = new SockJS('/market/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            isConnected(true);
+            sendPriceRequest();
+            console.log('WebSocket connected, price request sent \n' + frame);
+            stompClient.subscribe('/topic/price', function (wsMessage) {
+                $scope.priceUrl = contextPath + '/files/price/' + JSON.parse(wsMessage.body).content;
+                window.open($scope.priceUrl); //убогое решение но сделать изящнее не получилось
+                disconnect();
+            });
+        });
+    }
+
+    $scope.subscribe = function () {
+
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        isConnected(false);
+        console.log("WebSocket Disconnected");
+    }
+
+    function sendPriceRequest() {
+        stompClient.send("/app/price");
+    }
 
 });

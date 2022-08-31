@@ -3,6 +3,10 @@ server:
   servlet:
     context-path: /market
 spring:
+  mvc:
+    resources:
+      mapping: "/webjars/**"
+      location: "classpath:/META-INF/resources/webjars/"
   main:
     allow-bean-definition-overriding: true
   datasource:
